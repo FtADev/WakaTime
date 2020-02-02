@@ -3,8 +3,7 @@ import 'package:flutter/foundation.dart'
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waka/ui/my_colors.dart';
-import 'package:waka/ui/screens/activity_screen.dart';
-import 'package:waka/ui/screens/login_screen.dart';
+import 'package:waka/ui/screens/user_activity_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,8 +66,8 @@ class MyApp extends StatelessWidget {
 Future<Widget> checkFirstLaunch() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-  if (isLoggedIn)
-    return ActivityScreen();
-  else
-    return LoginScreen();
+//  if (isLoggedIn)
+    return UserActivityScreen();
+//  else
+//    return LoginScreen();
 }

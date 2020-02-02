@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:waka/repository/model/user.dart';
+import 'package:waka/repository/model/user_data.dart';
 import 'package:waka/ui/my_colors.dart';
 
 class ActivityChart extends StatefulWidget {
-  final User user;
+  final UserData userData;
+  final String totalTimeString;
 
   const ActivityChart({
     Key key,
-    @required this.user,
+    @required this.userData, this.totalTimeString,
   }) : super(key: key);
 
   @override
@@ -36,8 +37,8 @@ class ActivityChartState extends State<ActivityChart> {
     for (int i = 0; i < 7; i++) {
       BarChartGroupData barGroup = makeGroupData(
           i,
-          widget.user.userData.data[i].categories.isNotEmpty
-              ? widget.user.userData.data[i].categories[0].totalSeconds / 3600
+          widget.userData.data[i].categories.isNotEmpty
+              ? widget.userData.data[i].categories[0].totalSeconds / 3600
               : 0);
       items.add(barGroup);
     }
@@ -100,15 +101,15 @@ class ActivityChartState extends State<ActivityChart> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
+//              Text(
+//                widget.user.fullName,
+//                style: Theme.of(context).appBarTheme.textTheme.title,
+//              ),
+//              SizedBox(
+//                height: 4,
+//              ),
               Text(
-                widget.user.fullName,
-                style: Theme.of(context).appBarTheme.textTheme.title,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                widget.user.totalTimeString,
+                (widget.totalTimeString != null) ? widget.totalTimeString : "",
                 style: Theme.of(context).textTheme.body2,
               ),
               SizedBox(
@@ -165,7 +166,7 @@ class ActivityChartState extends State<ActivityChart> {
                                 return TooltipItem(
                                     weekDay +
                                         '\n' +
-                                        widget.user.userData.data[touchedSpot.spot.x.toInt()].categories[0].text,
+                                        widget.userData.data[touchedSpot.spot.x.toInt()].categories[0].text,
                                     TextStyle(color: MyColors.BAR_TOUCHED_COLOR));
                               }).toList();
                             }),

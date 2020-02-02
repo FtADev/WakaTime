@@ -6,7 +6,7 @@ import 'package:waka/ui/background.dart';
 import 'package:waka/ui/login_card.dart';
 import 'package:waka/ui/my_colors.dart';
 import 'package:waka/ui/register_card.dart';
-import 'package:waka/ui/screens/activity_screen.dart';
+import 'package:waka/ui/screens/user_activity_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ..setBool('isLoggedIn', true);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => ActivityScreen(),
+              builder: (context) => UserActivityScreen(),
             ),
           );
         } else
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ..setBool('isLoggedIn', true);
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => ActivityScreen(),
+                    builder: (context) => UserActivityScreen(),
                   ),
                 );
               } else

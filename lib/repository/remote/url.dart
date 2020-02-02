@@ -4,4 +4,5 @@ class URLs {
   static const String REGISTER = "users/register";
   static const String ALL_USER_SUMMARY = "users/getAllUser/"; /* /:userId/:start/:end */
   static const String ALL_USER97_SUMMARY = "users/getAllUser97/"; /* /:userId/:start/:end */
+  static const String GET_USER_SUMMARY = "https://wakatime.com/api/v1/users/current/summaries"; /* /:userId/:start/:end */
 }
