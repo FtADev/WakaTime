@@ -162,20 +162,20 @@ class LanguageChartState extends State<LanguageChart> {
           Expanded(
             child: AspectRatio(
               aspectRatio: 1,
-              child: FlChart(
-                chart: PieChart(
-                  PieChartData(
-                    pieTouchData: PieTouchData(
-                      touchResponseStreamSink:
-                          pieTouchedResultStreamController.sink,
-                    ),
-                    borderData: FlBorderData(show: false),
-                    sectionsSpace: 0,
-                    centerSpaceRadius: 40,
-                    sections: showingSections,
-                  ),
-                ),
-              ),
+//              child: FlChart(
+//                chart: PieChart(
+//                  PieChartData(
+//                    pieTouchData: PieTouchData(
+//                      touchResponseStreamSink:
+//                          pieTouchedResultStreamController.sink,
+//                    ),
+//                    borderData: FlBorderData(show: false),
+//                    sectionsSpace: 0,
+//                    centerSpaceRadius: 40,
+//                    sections: showingSections,
+//                  ),
+//                ),
+//              ),
             ),
           ),
           Column(
