@@ -162,20 +162,40 @@ class LanguageChartState extends State<LanguageChart> {
           Expanded(
             child: AspectRatio(
               aspectRatio: 1,
-//              child: FlChart(
-//                chart: PieChart(
-//                  PieChartData(
-//                    pieTouchData: PieTouchData(
-//                      touchResponseStreamSink:
-//                          pieTouchedResultStreamController.sink,
-//                    ),
-//                    borderData: FlBorderData(show: false),
-//                    sectionsSpace: 0,
-//                    centerSpaceRadius: 40,
-//                    sections: showingSections,
-//                  ),
-//                ),
-//              ),
+                child: PieChart(
+                  PieChartData(
+                    pieTouchData: PieTouchData(
+                      touchCallback:
+                          (pieTouchResponse) {
+                            if (pieTouchResponse == null) return;
+                            if (showingSections.indexOf(pieTouchResponse.touchedSection) == -1) return;
+
+                            if (pieTouchResponse.touchedSection != null)
+                              touchedIndex = showingSections.indexOf(pieTouchResponse.touchedSection);
+                            print(touchedIndex);
+                            setState(() {
+                              showingSections = List.of(pieChartRawSections);
+
+                              double x = totalSecond[touchedIndex] / 3600;
+                              int hrs = x.floor();
+                              int mins = ((x - hrs) * 60).floor();
+                              final TextStyle style = showingSections[touchedIndex].titleStyle;
+                              showingSections[touchedIndex] = showingSections[touchedIndex].copyWith(
+                                title: hrs > 0
+                                    ? "$hrs hrs ${mins.toString()} mins"
+                                    : "${mins.toString()} mins",
+                                color: showingSections[touchedIndex].color.withOpacity(1),
+                                titleStyle: style.copyWith(fontSize: 14, color: Colors.black),
+                                radius: 60,
+                              );
+                            });
+                      }),
+                    borderData: FlBorderData(show: false),
+                    sectionsSpace: 0,
+                    centerSpaceRadius: 40,
+                    sections: showingSections,
+                  ),
+              ),
             ),
           ),
           Column(
