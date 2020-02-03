@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waka/repository/model/data.dart';
 import 'package:waka/repository/model/user_data.dart';
 import 'package:waka/repository/remote/http.dart';
@@ -18,7 +19,10 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
 
   @override
   initState() {
-    _getUserSummary("APIKEY", "2020-01-27", "2020-02-02");
+    SharedPreferences.getInstance().then((prefs) {
+      String apiKey = prefs.getString('apiKey');
+      _getUserSummary(apiKey, "2020-01-28", "2020-02-03");
+    });
     super.initState();
   }
 
