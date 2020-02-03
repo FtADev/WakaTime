@@ -3,10 +3,9 @@ import 'package:waka/ui/my_colors.dart';
 
 class LoginCard extends StatelessWidget {
   final userLoginCtrl;
-  final passLoginCtrl;
 
   const LoginCard(
-      {Key key, @required this.userLoginCtrl, @required this.passLoginCtrl})
+      {Key key, @required this.userLoginCtrl})
       : super(key: key);
 
   @override
@@ -21,17 +20,7 @@ class LoginCard extends StatelessWidget {
               .textTheme
               .body1
               .copyWith(color: MyColors.txtColor),
-          decoration: InputDecoration(labelText: "Username"),
-        ),
-        TextField(
-          controller: passLoginCtrl,
-          cursorColor: MyColors.darkBackgroundColor,
-          style: Theme.of(context)
-              .textTheme
-              .body1
-              .copyWith(color: MyColors.txtColor),
-          decoration: InputDecoration(labelText: "Password"),
-          obscureText: true,
+          decoration: InputDecoration(labelText: "ApiKey"),
         ),
         SizedBox(
           height: 25,
