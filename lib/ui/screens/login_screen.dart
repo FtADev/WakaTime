@@ -76,6 +76,11 @@ class _LoginScreenState extends State<LoginScreen> {
           await SharedPreferences.getInstance()
             ..setString("apiKey", apiKey)
             ..setBool('isLoggedIn', true);
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => UserActivityScreen(),
+            ),
+          );
   }
 
   _showToast(String msg) {
