@@ -13,7 +13,8 @@ class ActivityChart extends StatefulWidget {
 
   const ActivityChart({
     Key key,
-    @required this.userData, this.totalTimeString,
+    @required this.userData,
+    this.totalTimeString,
   }) : super(key: key);
 
   @override
@@ -86,10 +87,11 @@ class ActivityChartState extends State<ActivityChart> {
           if (touchedGroupIndex != -1) {
             showingBarGroups[touchedGroupIndex] =
                 showingBarGroups[touchedGroupIndex].copyWith(
-                  barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
-                    return rod.copyWith(color: MyColors.BAR_TOUCHED_COLOR, y: rod.y + 1);
-                  }).toList(),
-                );
+              barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
+                return rod.copyWith(
+                    color: MyColors.BAR_TOUCHED_COLOR, y: rod.y + 1);
+              }).toList(),
+            );
           }
         }
       });
@@ -105,58 +107,58 @@ class ActivityChartState extends State<ActivityChart> {
         margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         color: MyColors.MAIN_COLOR,
-        child: Stack(
-            children: [Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Text(
-                    (widget.totalTimeString != null) ? widget.totalTimeString : "",
-                    style: Theme.of(context).textTheme.body2,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: BarChart(
-                          isPlaying ? randomData() : mainBarData(),
-                          swapAnimationDuration: animDuration,
-                        )
-                    ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                ],
+        child: Stack(children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  (widget.totalTimeString != null)
+                      ? widget.totalTimeString
+                      : "",
+                  style: Theme.of(context).textTheme.body2,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: BarChart(
+                        isPlaying ? randomData() : mainBarData(),
+                        swapAnimationDuration: animDuration,
+                      )),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(
+                  isPlaying ? Icons.pause : Icons.play_arrow,
+                  color: const Color(0xff0f4a3c),
+                ),
+                onPressed: () {
+                  setState(() {
+                    isPlaying = !isPlaying;
+                    if (isPlaying) {
+                      refreshState();
+                    }
+                  });
+                },
               ),
             ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    icon: Icon(
-                      isPlaying ? Icons.pause : Icons.play_arrow,
-                      color: const Color(0xff0f4a3c),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isPlaying = !isPlaying;
-                        if (isPlaying) {
-                          refreshState();
-                        }
-                      });
-                    },
-                  ),
-                ),
-              )
-            ]
-        ),
+          )
+        ]),
       ),
     );
   }
@@ -173,45 +175,38 @@ class ActivityChartState extends State<ActivityChart> {
           textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
-            String weekDay;
             switch (value.toInt()) {
               case 0:
-                weekDay = DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 6)));
-                break;
+                return DateFormat.E()
+                    .format(DateTime.now().subtract(Duration(days: 6)))
+                    .substring(0, 1);
               case 1:
-                weekDay = DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 5)));
-                break;
+                return DateFormat.E()
+                    .format(DateTime.now().subtract(Duration(days: 5)))
+                    .substring(0, 1);
               case 2:
-                weekDay = DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 4)));
-                break;
+                return DateFormat.E()
+                    .format(DateTime.now().subtract(Duration(days: 4)))
+                    .substring(0, 1);
               case 3:
-                weekDay = DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 3)));
-                break;
+                return DateFormat.E()
+                    .format(DateTime.now().subtract(Duration(days: 3)))
+                    .substring(0, 1);
               case 4:
-                weekDay = DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 2)));
-                break;
+                return DateFormat.E()
+                    .format(DateTime.now().subtract(Duration(days: 2)))
+                    .substring(0, 1);
               case 5:
-                weekDay = DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 1)));
-                break;
+                return DateFormat.E()
+                    .format(DateTime.now().subtract(Duration(days: 1)))
+                    .substring(0, 1);
               case 6:
-                weekDay = DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 0)));
-                break;
+                return DateFormat.E()
+                    .format(DateTime.now().subtract(Duration(days: 0)))
+                    .substring(0, 1);
+              default:
+                return '';
             }
-            return weekDay;
           },
         ),
         leftTitles: const SideTitles(
@@ -225,25 +220,32 @@ class ActivityChartState extends State<ActivityChart> {
         switch (i) {
           case 0:
             return makeGroupData(0, Random().nextInt(15).toDouble() + 6,
-                barColor: availableColors[Random().nextInt(availableColors.length)]);
+                barColor:
+                    availableColors[Random().nextInt(availableColors.length)]);
           case 1:
             return makeGroupData(1, Random().nextInt(15).toDouble() + 6,
-                barColor: availableColors[Random().nextInt(availableColors.length)]);
+                barColor:
+                    availableColors[Random().nextInt(availableColors.length)]);
           case 2:
             return makeGroupData(2, Random().nextInt(15).toDouble() + 6,
-                barColor: availableColors[Random().nextInt(availableColors.length)]);
+                barColor:
+                    availableColors[Random().nextInt(availableColors.length)]);
           case 3:
             return makeGroupData(3, Random().nextInt(15).toDouble() + 6,
-                barColor: availableColors[Random().nextInt(availableColors.length)]);
+                barColor:
+                    availableColors[Random().nextInt(availableColors.length)]);
           case 4:
             return makeGroupData(4, Random().nextInt(15).toDouble() + 6,
-                barColor: availableColors[Random().nextInt(availableColors.length)]);
+                barColor:
+                    availableColors[Random().nextInt(availableColors.length)]);
           case 5:
             return makeGroupData(5, Random().nextInt(15).toDouble() + 6,
-                barColor: availableColors[Random().nextInt(availableColors.length)]);
+                barColor:
+                    availableColors[Random().nextInt(availableColors.length)]);
           case 6:
             return makeGroupData(6, Random().nextInt(15).toDouble() + 6,
-                barColor: availableColors[Random().nextInt(availableColors.length)]);
+                barColor:
+                    availableColors[Random().nextInt(availableColors.length)]);
           default:
             return null;
         }
@@ -261,42 +263,38 @@ class ActivityChartState extends State<ActivityChart> {
               switch (group.x.toInt()) {
                 case 0:
                   weekDay = DateFormat.E()
-                      .format(DateTime.now()
-                      .subtract(Duration(days: 6)));
+                      .format(DateTime.now().subtract(Duration(days: 6)));
                   break;
                 case 1:
                   weekDay = DateFormat.E()
-                      .format(DateTime.now()
-                      .subtract(Duration(days: 5)));
+                      .format(DateTime.now().subtract(Duration(days: 5)));
                   break;
                 case 2:
                   weekDay = DateFormat.E()
-                      .format(DateTime.now()
-                      .subtract(Duration(days: 4)));
+                      .format(DateTime.now().subtract(Duration(days: 4)));
                   break;
                 case 3:
                   weekDay = DateFormat.E()
-                      .format(DateTime.now()
-                      .subtract(Duration(days: 3)));
+                      .format(DateTime.now().subtract(Duration(days: 3)));
                   break;
                 case 4:
                   weekDay = DateFormat.E()
-                      .format(DateTime.now()
-                      .subtract(Duration(days: 2)));
+                      .format(DateTime.now().subtract(Duration(days: 2)));
                   break;
                 case 5:
                   weekDay = DateFormat.E()
-                      .format(DateTime.now()
-                      .subtract(Duration(days: 1)));
+                      .format(DateTime.now().subtract(Duration(days: 1)));
                   break;
                 case 6:
                   weekDay = DateFormat.E()
-                      .format(DateTime.now()
-                      .subtract(Duration(days: 0)));
+                      .format(DateTime.now().subtract(Duration(days: 0)));
                   break;
               }
               return BarTooltipItem(
-                  weekDay + '\n' + widget.userData.data[group.x.toInt()].categories[0].text, TextStyle(color: MyColors.BAR_TOUCHED_COLOR));
+                  weekDay +
+                      '\n' +
+                      widget.userData.data[group.x.toInt()].categories[0].text,
+                  TextStyle(color: MyColors.BAR_TOUCHED_COLOR));
             }),
         touchCallback: (barTouchResponse) {
           setState(() {
@@ -320,38 +318,31 @@ class ActivityChartState extends State<ActivityChart> {
             switch (value.toInt()) {
               case 0:
                 return DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 6)))
+                    .format(DateTime.now().subtract(Duration(days: 6)))
                     .substring(0, 1);
               case 1:
                 return DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 5)))
+                    .format(DateTime.now().subtract(Duration(days: 5)))
                     .substring(0, 1);
               case 2:
                 return DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 4)))
+                    .format(DateTime.now().subtract(Duration(days: 4)))
                     .substring(0, 1);
               case 3:
                 return DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 3)))
+                    .format(DateTime.now().subtract(Duration(days: 3)))
                     .substring(0, 1);
               case 4:
                 return DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 2)))
+                    .format(DateTime.now().subtract(Duration(days: 2)))
                     .substring(0, 1);
               case 5:
                 return DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 1)))
+                    .format(DateTime.now().subtract(Duration(days: 1)))
                     .substring(0, 1);
               case 6:
                 return DateFormat.E()
-                    .format(DateTime.now()
-                    .subtract(Duration(days: 0)))
+                    .format(DateTime.now().subtract(Duration(days: 0)))
                     .substring(0, 1);
               default:
                 return '';
@@ -370,27 +361,25 @@ class ActivityChartState extends State<ActivityChart> {
   }
 
   BarChartGroupData makeGroupData(
-      int x,
-      double y, {
-        bool isTouched = false,
-        Color barColor = Colors.white,
-        double width = 22,
-        List<int> showTooltips = const [],
-      }) {
-    return BarChartGroupData(
-        x: x,
-        barRods: [
-          BarChartRodData(
-            y: isTouched ? y + 1 : y,
-            color: isTouched ? Colors.yellow : barColor,
-            width: width,
-            backDrawRodData: BackgroundBarChartRodData(
-              show: true,
-              y: 8,
-              color: MyColors.darkBackgroundColor,
-            ),
-          ),
-        ]);
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color barColor = Colors.white,
+    double width = 22,
+    List<int> showTooltips = const [],
+  }) {
+    return BarChartGroupData(x: x, barRods: [
+      BarChartRodData(
+        y: isTouched ? y + 1 : y,
+        color: isTouched ? Colors.yellow : barColor,
+        width: width,
+        backDrawRodData: BackgroundBarChartRodData(
+          show: true,
+          y: 8,
+          color: MyColors.darkBackgroundColor,
+        ),
+      ),
+    ]);
   }
 
   List<BarChartGroupData> showingGroups() {
