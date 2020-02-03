@@ -32,19 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Image.asset('assets/images/hello-there.png'),
                 ),
                 SizedBox(
-                  child: RotationTransition(
-                    turns: AlwaysStoppedAnimation(-8 / 360),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      margin: EdgeInsets.all(20.0),
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.all(25.0),
-                        child: LoginCard(
-                          userLoginCtrl: apiKeyRegisterCtrl,
-                        ),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    margin: EdgeInsets.all(20.0),
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(25.0),
+                      child: LoginCard(
+                        userLoginCtrl: apiKeyRegisterCtrl,
                       ),
                     ),
                   ),
