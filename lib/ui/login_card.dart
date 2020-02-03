@@ -20,7 +20,7 @@ class LoginCard extends StatelessWidget {
               .textTheme
               .body1
               .copyWith(color: MyColors.txtColor),
-          decoration: InputDecoration(labelText: "ApiKey"),
+          decoration: InputDecoration(labelText: "Please Enter Your ApiKey"),
         ),
         SizedBox(
           height: 25,
