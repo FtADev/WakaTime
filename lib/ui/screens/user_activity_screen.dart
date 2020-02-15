@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waka/repository/model/data.dart';
 import 'package:waka/repository/model/user_data.dart';
@@ -21,7 +22,10 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
   initState() {
     SharedPreferences.getInstance().then((prefs) {
       String apiKey = prefs.getString('apiKey');
-      _getUserSummary(apiKey, "2020-01-28", "2020-02-03");
+      String start = DateFormat('yyy-MM-dd')
+          .format(DateTime.now().subtract(Duration(days: 6)));
+      String end = DateFormat('yyy-MM-dd').format(DateTime.now());
+      _getUserSummary(apiKey, start, end);
     });
     super.initState();
   }
