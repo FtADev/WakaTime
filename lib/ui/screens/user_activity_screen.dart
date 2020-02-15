@@ -5,7 +5,9 @@ import 'package:waka/repository/model/data.dart';
 import 'package:waka/repository/model/user_data.dart';
 import 'package:waka/repository/remote/http.dart';
 import 'package:waka/ui/activity_chart.dart';
+import 'package:waka/ui/editor_chart.dart';
 import 'package:waka/ui/language_chart.dart';
+import 'package:waka/ui/os_chart.dart';
 
 class UserActivityScreen extends StatefulWidget {
   @override
@@ -73,6 +75,15 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
             LanguageChart(
               dataList: userData.data,
             ) : Container(),
+            (userData != null) ?
+            EditorChart(
+              dataList: userData.data,
+            ) : Container(),
+            (userData != null) ?
+            OSChart(
+              dataList: userData.data,
+            ) : Container(),
+
           ],
         ),
       ),
