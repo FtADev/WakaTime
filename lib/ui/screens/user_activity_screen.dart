@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,6 +6,7 @@ import 'package:waka/repository/model/data.dart';
 import 'package:waka/repository/model/user_data.dart';
 import 'package:waka/repository/remote/http.dart';
 import 'package:waka/ui/activity_chart.dart';
+import 'package:waka/ui/date_time_field.dart';
 import 'package:waka/ui/editor_chart.dart';
 import 'package:waka/ui/language_chart.dart';
 import 'package:waka/ui/os_chart.dart';
@@ -66,6 +68,7 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            BasicDateField(),
             (userData != null) ?
             ActivityChart(
               userData: userData,
@@ -83,10 +86,63 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
             OSChart(
               dataList: userData.data,
             ) : Container(),
-
           ],
         ),
       ),
     );
+  }
+}
+
+
+class DateTimeForm extends StatefulWidget {
+  @override
+  _DateTimeFormState createState() => _DateTimeFormState();
+}
+
+class _DateTimeFormState extends State<DateTimeForm> {
+  final formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          BasicDateField(),
+
+        ],
+      ),
+    );
+  }
+}
+
+class BasicDateField extends StatelessWidget {
+  final format = DateFormat("yyyy-MM-dd");
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: <Widget>[
+      Text('Choose Start Day:'),
+      DateTimeField(
+        format: format,
+        onShowPicker: (context, currentValue) {
+          return showDatePicker(
+              context: context,
+              firstDate: DateTime(1900),
+              initialDate: currentValue ?? DateTime.now(),
+              lastDate: DateTime(2100));
+        },
+      ),
+      Text('Choose End Day:'),
+      DateTimeField(
+        format: format,
+        onShowPicker: (context, currentValue) {
+          return showDatePicker(
+              context: context,
+              firstDate: DateTime(1900),
+              initialDate: currentValue ?? DateTime.now(),
+              lastDate: DateTime(2100));
+        },
+      ),
+    ]);
   }
 }
