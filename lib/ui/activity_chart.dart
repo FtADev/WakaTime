@@ -48,16 +48,20 @@ class ActivityChartState extends State<ActivityChart> {
   @override
   void initState() {
     super.initState();
+    buildChart();
+  }
 
+  buildChart() {
     List<BarChartGroupData> items = [];
-    for (int i = 0; i < 7; i++) {
-      BarChartGroupData barGroup = makeGroupData(
-          i,
-          widget.userData.data[i].categories.isNotEmpty
-              ? widget.userData.data[i].categories[0].totalSeconds / 3600
-              : 0);
-      items.add(barGroup);
-    }
+      for (int i = 0; i < (widget.is7Day ? 7 : 14); i++) {
+        BarChartGroupData barGroup = makeGroupData(
+            i,
+            widget.userData.data[i].categories.isNotEmpty
+                ? widget.userData.data[i].categories[0].totalSeconds / 3600
+                : 0);
+        items.add(barGroup);
+      }
+
 
     rawBarGroups = items;
 
@@ -91,11 +95,11 @@ class ActivityChartState extends State<ActivityChart> {
           if (touchedGroupIndex != -1) {
             showingBarGroups[touchedGroupIndex] =
                 showingBarGroups[touchedGroupIndex].copyWith(
-              barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
-                return rod.copyWith(
-                    color: MyColors.BAR_TOUCHED_COLOR, y: rod.y + 1);
-              }).toList(),
-            );
+                  barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
+                    return rod.copyWith(
+                        color: MyColors.BAR_TOUCHED_COLOR, y: rod.y + 1);
+                  }).toList(),
+                );
           }
         }
       });
@@ -129,7 +133,12 @@ class ActivityChartState extends State<ActivityChart> {
                   height: 10,
                 ),
                 InkWell(
-                  onTap: () => widget.changeDate(),
+                  onTap: () {
+                    widget.changeDate();
+                    setState(() {
+                      buildChart();
+                    });
+                  },
                   child: Text(
                     widget.is7Day ? "7 Days Ago" : "14 Days Ago",
                     style: Theme.of(context).textTheme.display1,
@@ -193,38 +202,102 @@ class ActivityChartState extends State<ActivityChart> {
           ),
           margin: 16,
           getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 6)))
-                    .substring(0, 1);
-              case 1:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 5)))
-                    .substring(0, 1);
-              case 2:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 4)))
-                    .substring(0, 1);
-              case 3:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 3)))
-                    .substring(0, 1);
-              case 4:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 2)))
-                    .substring(0, 1);
-              case 5:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 1)))
-                    .substring(0, 1);
-              case 6:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 0)))
-                    .substring(0, 1);
-              default:
-                return '';
+            if(widget.is7Day) {
+              switch (value.toInt()) {
+                case 0:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 6)))
+                      .substring(0, 1);
+                case 1:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 5)))
+                      .substring(0, 1);
+                case 2:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 4)))
+                      .substring(0, 1);
+                case 3:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 3)))
+                      .substring(0, 1);
+                case 4:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 2)))
+                      .substring(0, 1);
+                case 5:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 1)))
+                      .substring(0, 1);
+                case 6:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 0)))
+                      .substring(0, 1);
+                default:
+                  return '';
+              }
+            } else {
+              switch (value.toInt()) {
+                case 0:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 13)))
+                      .substring(0, 1);
+                case 1:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 12)))
+                      .substring(0, 1);
+                case 2:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 11)))
+                      .substring(0, 1);
+                case 3:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 10)))
+                      .substring(0, 1);
+                case 4:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 9)))
+                      .substring(0, 1);
+                case 5:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 8)))
+                      .substring(0, 1);
+                case 6:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 7)))
+                      .substring(0, 1);
+                case 7:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 6)))
+                      .substring(0, 1);
+                case 8:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 5)))
+                      .substring(0, 1);
+                case 9:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 4)))
+                      .substring(0, 1);
+                case 10:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 3)))
+                      .substring(0, 1);
+                case 11:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 2)))
+                      .substring(0, 1);
+                case 12:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 1)))
+                      .substring(0, 1);
+                case 13:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 0)))
+                      .substring(0, 1);
+                default:
+                  return '';
+              }
             }
+
           },
         ),
         leftTitles: const SideTitles(
@@ -278,35 +351,96 @@ class ActivityChartState extends State<ActivityChart> {
             tooltipBgColor: MyColors.TOOLTIP_BG_COLOR,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               String weekDay;
-              switch (group.x.toInt()) {
-                case 0:
-                  weekDay = DateFormat.E()
-                      .format(DateTime.now().subtract(Duration(days: 6)));
-                  break;
-                case 1:
-                  weekDay = DateFormat.E()
-                      .format(DateTime.now().subtract(Duration(days: 5)));
-                  break;
-                case 2:
-                  weekDay = DateFormat.E()
-                      .format(DateTime.now().subtract(Duration(days: 4)));
-                  break;
-                case 3:
-                  weekDay = DateFormat.E()
-                      .format(DateTime.now().subtract(Duration(days: 3)));
-                  break;
-                case 4:
-                  weekDay = DateFormat.E()
-                      .format(DateTime.now().subtract(Duration(days: 2)));
-                  break;
-                case 5:
-                  weekDay = DateFormat.E()
-                      .format(DateTime.now().subtract(Duration(days: 1)));
-                  break;
-                case 6:
-                  weekDay = DateFormat.E()
-                      .format(DateTime.now().subtract(Duration(days: 0)));
-                  break;
+              if(widget.is7Day) {
+                switch (group.x.toInt()) {
+                  case 0:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 6)));
+                    break;
+                  case 1:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 5)));
+                    break;
+                  case 2:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 4)));
+                    break;
+                  case 3:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 3)));
+                    break;
+                  case 4:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 2)));
+                    break;
+                  case 5:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 1)));
+                    break;
+                  case 6:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 0)));
+                    break;
+                }
+              } else {
+                switch (group.x.toInt()) {
+                  case 0:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 13)));
+                    break;
+                  case 1:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 12)));
+                    break;
+                  case 2:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 11)));
+                    break;
+                  case 3:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 10)));
+                    break;
+                  case 4:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 9)));
+                    break;
+                  case 5:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 8)));
+                    break;
+                  case 6:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 7)));
+                    break;
+                  case 7:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 6)));
+                    break;
+                  case 8:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 5)));
+                    break;
+                  case 9:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 4)));
+                    break;
+                  case 10:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 3)));
+                    break;
+                  case 11:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 2)));
+                    break;
+                  case 12:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 1)));
+                    break;
+                  case 13:
+                    weekDay = DateFormat.E()
+                        .format(DateTime.now().subtract(Duration(days: 0)));
+                    break;
+                }
               }
               return BarTooltipItem(
                   weekDay +
@@ -402,7 +536,7 @@ class ActivityChartState extends State<ActivityChart> {
 
   List<BarChartGroupData> showingGroups() {
     List<BarChartGroupData> items = [];
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < (widget.is7Day ? 7: 14); i++) {
       BarChartGroupData barGroup = makeGroupData(
           i,
           widget.userData.data[i].categories.isNotEmpty
