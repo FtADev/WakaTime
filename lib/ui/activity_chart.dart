@@ -10,11 +10,15 @@ import 'package:waka/ui/my_colors.dart';
 class ActivityChart extends StatefulWidget {
   final UserData userData;
   final String totalTimeString;
+  final Function changeDate;
+  final bool is7Day;
 
   const ActivityChart({
     Key key,
     @required this.userData,
     this.totalTimeString,
+    this.changeDate,
+    this.is7Day,
   }) : super(key: key);
 
   @override
@@ -122,6 +126,16 @@ class ActivityChartState extends State<ActivityChart> {
                   style: Theme.of(context).textTheme.body2,
                 ),
                 SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () => widget.changeDate(),
+                  child: Text(
+                    widget.is7Day ? "7 Days Ago" : "14 Days Ago",
+                    style: Theme.of(context).textTheme.display1,
+                  ),
+                ),
+                SizedBox(
                   height: 20,
                 ),
                 Expanded(
@@ -172,7 +186,11 @@ class ActivityChartState extends State<ActivityChart> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          textStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {

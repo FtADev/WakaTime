@@ -21,13 +21,16 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
   double totalSec = 0;
   double totalSeconds;
   String totalTimeString;
+  bool is7Day = true;
 
   @override
   initState() {
     SharedPreferences.getInstance().then((prefs) {
       String apiKey = prefs.getString('apiKey');
-      String start = DateFormat('yyy-MM-dd')
-          .format(DateTime.now().subtract(Duration(days: 6)));
+      String start = is7Day ? DateFormat('yyy-MM-dd')
+          .format(DateTime.now().subtract(Duration(days: 6)))
+      : DateFormat('yyy-MM-dd')
+          .format(DateTime.now().subtract(Duration(days: 13)));
       String end = DateFormat('yyy-MM-dd').format(DateTime.now());
       _getUserSummary(apiKey, start, end);
     });
@@ -35,6 +38,7 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
   }
 
   _calculateTimes(UserData userData) {
+    totalSec = 0;
       for (Data data in userData.data)
         totalSec +=
         data.categories.isNotEmpty ? data.categories[0].totalSeconds : 0;
@@ -57,6 +61,20 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
     });
   }
 
+  changeDate() {
+    setState(() {
+      is7Day = !is7Day;
+      SharedPreferences.getInstance().then((prefs) {
+        String apiKey = prefs.getString('apiKey');
+        String start = is7Day ? DateFormat('yyy-MM-dd')
+            .format(DateTime.now().subtract(Duration(days: 6)))
+            : DateFormat('yyy-MM-dd')
+            .format(DateTime.now().subtract(Duration(days: 13)));
+        String end = DateFormat('yyy-MM-dd').format(DateTime.now());
+        _getUserSummary(apiKey, start, end);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +90,8 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
             ActivityChart(
               userData: userData,
               totalTimeString: totalTimeString,
+              changeDate: changeDate,
+              is7Day: is7Day,
             ) : Container(),
             (userData != null) ?
             LanguageChart(
