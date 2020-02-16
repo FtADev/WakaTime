@@ -21,7 +21,7 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
   double totalSec = 0;
   double totalSeconds;
   String totalTimeString;
-  bool is7Day = false;
+  bool is7Day = true;
 
   @override
   initState() {
