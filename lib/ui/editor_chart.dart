@@ -63,7 +63,7 @@ class EditorChartState extends State<EditorChart> {
       for (int j = 0; j < widget.dataList.length; j++) {
         for (int k = 0; k < widget.dataList[j].editors.length; k++) {
           if (widget.dataList[j].editors[k].name == editorsNames[i]) {
-            totalSecond[i] += widget.dataList[j].operatingSystems[k].totalSeconds;
+            totalSecond[i] += widget.dataList[j].editors[k].totalSeconds;
           }
         }
       }
