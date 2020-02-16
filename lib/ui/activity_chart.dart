@@ -214,39 +214,10 @@ class ActivityChartState extends State<ActivityChart> {
       borderData: FlBorderData(
         show: false,
       ),
-      barGroups: List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeGroupData(0, Random().nextInt(15).toDouble() + 6,
-                barColor:
-                    availableColors[Random().nextInt(availableColors.length)]);
-          case 1:
-            return makeGroupData(1, Random().nextInt(15).toDouble() + 6,
-                barColor:
-                    availableColors[Random().nextInt(availableColors.length)]);
-          case 2:
-            return makeGroupData(2, Random().nextInt(15).toDouble() + 6,
-                barColor:
-                    availableColors[Random().nextInt(availableColors.length)]);
-          case 3:
-            return makeGroupData(3, Random().nextInt(15).toDouble() + 6,
-                barColor:
-                    availableColors[Random().nextInt(availableColors.length)]);
-          case 4:
-            return makeGroupData(4, Random().nextInt(15).toDouble() + 6,
-                barColor:
-                    availableColors[Random().nextInt(availableColors.length)]);
-          case 5:
-            return makeGroupData(5, Random().nextInt(15).toDouble() + 6,
-                barColor:
-                    availableColors[Random().nextInt(availableColors.length)]);
-          case 6:
-            return makeGroupData(6, Random().nextInt(15).toDouble() + 6,
-                barColor:
-                    availableColors[Random().nextInt(availableColors.length)]);
-          default:
-            return null;
-        }
+      barGroups: List.generate(widget.userData.data.length, (i) {
+        return makeGroupData(i, Random().nextInt(15).toDouble() + 6,
+            barColor:
+            availableColors[Random().nextInt(availableColors.length)]);
       }),
     );
   }
