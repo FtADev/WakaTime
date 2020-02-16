@@ -467,37 +467,100 @@ class ActivityChartState extends State<ActivityChart> {
           textStyle: Theme.of(context).textTheme.body2.copyWith(fontSize: 14),
           margin: 16,
           getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 6)))
-                    .substring(0, 1);
-              case 1:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 5)))
-                    .substring(0, 1);
-              case 2:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 4)))
-                    .substring(0, 1);
-              case 3:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 3)))
-                    .substring(0, 1);
-              case 4:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 2)))
-                    .substring(0, 1);
-              case 5:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 1)))
-                    .substring(0, 1);
-              case 6:
-                return DateFormat.E()
-                    .format(DateTime.now().subtract(Duration(days: 0)))
-                    .substring(0, 1);
-              default:
-                return '';
+            if (widget.is7Day) {
+              switch (value.toInt()) {
+                case 0:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 6)))
+                      .substring(0, 1);
+                case 1:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 5)))
+                      .substring(0, 1);
+                case 2:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 4)))
+                      .substring(0, 1);
+                case 3:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 3)))
+                      .substring(0, 1);
+                case 4:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 2)))
+                      .substring(0, 1);
+                case 5:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 1)))
+                      .substring(0, 1);
+                case 6:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 0)))
+                      .substring(0, 1);
+                default:
+                  return '';
+              }
+            } else {
+              switch (value.toInt()) {
+                case 0:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 13)))
+                      .substring(0, 1);
+                case 1:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 12)))
+                      .substring(0, 1);
+                case 2:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 11)))
+                      .substring(0, 1);
+                case 3:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 10)))
+                      .substring(0, 1);
+                case 4:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 9)))
+                      .substring(0, 1);
+                case 5:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 8)))
+                      .substring(0, 1);
+                case 6:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 7)))
+                      .substring(0, 1);
+                case 7:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 6)))
+                      .substring(0, 1);
+                case 8:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 5)))
+                      .substring(0, 1);
+                case 9:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 4)))
+                      .substring(0, 1);
+                case 10:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 3)))
+                      .substring(0, 1);
+                case 11:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 2)))
+                      .substring(0, 1);
+                case 12:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 1)))
+                      .substring(0, 1);
+                case 13:
+                  return DateFormat.E()
+                      .format(DateTime.now().subtract(Duration(days: 0)))
+                      .substring(0, 1);
+                default:
+                  return '';
+              }
             }
           },
         ),
