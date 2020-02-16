@@ -95,15 +95,15 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
             ) : Container(),
             (userData != null) ?
             LanguageChart(
-              dataList: userData.data,
+              userData: userData,
             ) : Container(),
             (userData != null) ?
             EditorChart(
-              dataList: userData.data,
+              userData: userData,
             ) : Container(),
             (userData != null) ?
             OSChart(
-              dataList: userData.data,
+              userData: userData,
             ) : Container(),
           ],
         ),

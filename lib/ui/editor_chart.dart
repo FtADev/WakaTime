@@ -4,13 +4,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:waka/repository/model/data.dart';
 import 'package:waka/repository/model/editors.dart';
-import 'package:waka/repository/model/language.dart';
 import 'package:waka/ui/indicator.dart';
 
-class EditorChart extends StatefulWidget {
-  final List<Data> dataList;
+import '../repository/model/user_data.dart';
 
-  const EditorChart({Key key, this.dataList}) : super(key: key);
+
+class EditorChart extends StatefulWidget {
+  final UserData userData;
+
+  const EditorChart({Key key, this.userData}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => EditorChartState();
@@ -52,7 +54,7 @@ class EditorChartState extends State<EditorChart> {
     super.initState();
 
     //Add all languages to list
-    for (Data data in widget.dataList)
+    for (Data data in widget.userData.data)
       for (Editors lang in data.editors)
         if (!editorsNames.contains(lang.name)) editorsNames.add(lang.name);
 
@@ -60,10 +62,10 @@ class EditorChartState extends State<EditorChart> {
     for (int i = 0; i < editorsNames.length; i++) totalSecond.add(0.0);
 
     for (int i = 0; i < editorsNames.length; i++) {
-      for (int j = 0; j < widget.dataList.length; j++) {
-        for (int k = 0; k < widget.dataList[j].editors.length; k++) {
-          if (widget.dataList[j].editors[k].name == editorsNames[i]) {
-            totalSecond[i] += widget.dataList[j].editors[k].totalSeconds;
+      for (int j = 0; j < widget.userData.data.length; j++) {
+        for (int k = 0; k < widget.userData.data[j].editors.length; k++) {
+          if (widget.userData.data[j].editors[k].name == editorsNames[i]) {
+            totalSecond[i] += widget.userData.data[j].editors[k].totalSeconds;
           }
         }
       }

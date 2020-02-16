@@ -6,10 +6,12 @@ import 'package:waka/repository/model/data.dart';
 import 'package:waka/repository/model/language.dart';
 import 'package:waka/ui/indicator.dart';
 
-class LanguageChart extends StatefulWidget {
-  final List<Data> dataList;
+import '../repository/model/user_data.dart';
 
-  const LanguageChart({Key key, this.dataList}) : super(key: key);
+class LanguageChart extends StatefulWidget {
+  final UserData userData;
+
+  const LanguageChart({Key key, this.userData}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => LanguageChartState();
@@ -51,7 +53,7 @@ class LanguageChartState extends State<LanguageChart> {
     super.initState();
 
     //Add all languages to list
-    for (Data data in widget.dataList)
+    for (Data data in widget.userData.data)
       for (Languages lang in data.languages)
         if (!languageNames.contains(lang.name)) languageNames.add(lang.name);
 
@@ -59,10 +61,10 @@ class LanguageChartState extends State<LanguageChart> {
     for (int i = 0; i < languageNames.length; i++) totalSecond.add(0.0);
 
     for (int i = 0; i < languageNames.length; i++) {
-      for (int j = 0; j < widget.dataList.length; j++) {
-        for (int k = 0; k < widget.dataList[j].languages.length; k++) {
-          if (widget.dataList[j].languages[k].name == languageNames[i]) {
-            totalSecond[i] += widget.dataList[j].languages[k].totalSeconds;
+      for (int j = 0; j < widget.userData.data.length; j++) {
+        for (int k = 0; k < widget.userData.data[j].languages.length; k++) {
+          if (widget.userData.data[j].languages[k].name == languageNames[i]) {
+            totalSecond[i] += widget.userData.data[j].languages[k].totalSeconds;
           }
         }
       }

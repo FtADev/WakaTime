@@ -6,10 +6,12 @@ import 'package:waka/repository/model/data.dart';
 import 'package:waka/repository/model/os.dart';
 import 'package:waka/ui/indicator.dart';
 
-class OSChart extends StatefulWidget {
-  final List<Data> dataList;
+import '../repository/model/user_data.dart';
 
-  const OSChart({Key key, this.dataList}) : super(key: key);
+class OSChart extends StatefulWidget {
+  final UserData userData;
+
+  const OSChart({Key key, this.userData}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => OSChartState();
@@ -51,7 +53,7 @@ class OSChartState extends State<OSChart> {
     super.initState();
 
     //Add all languages to list
-    for (Data data in widget.dataList)
+    for (Data data in widget.userData.data)
       for (OperatingSystems lang in data.operatingSystems)
         if (!osNames.contains(lang.name)) osNames.add(lang.name);
 
@@ -59,10 +61,10 @@ class OSChartState extends State<OSChart> {
     for (int i = 0; i < osNames.length; i++) totalSecond.add(0.0);
 
     for (int i = 0; i < osNames.length; i++) {
-      for (int j = 0; j < widget.dataList.length; j++) {
-        for (int k = 0; k < widget.dataList[j].operatingSystems.length; k++) {
-          if (widget.dataList[j].operatingSystems[k].name == osNames[i]) {
-            totalSecond[i] += widget.dataList[j].operatingSystems[k].totalSeconds;
+      for (int j = 0; j < widget.userData.data.length; j++) {
+        for (int k = 0; k < widget.userData.data[j].operatingSystems.length; k++) {
+          if (widget.userData.data[j].operatingSystems[k].name == osNames[i]) {
+            totalSecond[i] += widget.userData.data[j].operatingSystems[k].totalSeconds;
           }
         }
       }
