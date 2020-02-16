@@ -68,7 +68,6 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            BasicDateField(),
             (userData != null) ?
             ActivityChart(
               userData: userData,
