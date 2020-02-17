@@ -51,6 +51,14 @@ class LanguageChartState extends State<LanguageChart> {
   @override
   void initState() {
     super.initState();
+    buildChart();
+  }
+
+  buildChart() {
+    pieChartRawSections = [];
+    languageNames = [];
+    totalSecond = [];
+    sum = 0.0;
 
     //Add all languages to list
     for (Data data in widget.userData.data)
