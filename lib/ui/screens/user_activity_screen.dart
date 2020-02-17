@@ -20,9 +20,6 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
   final GlobalKey<EditorChartState> editorState = GlobalKey<EditorChartState>();
   final GlobalKey<OSChartState> osState = GlobalKey<OSChartState>();
   UserData userData;
-  double totalSec = 0;
-  double totalSeconds;
-  String totalTimeString;
   bool is7Day = true;
 
   @override
@@ -39,26 +36,10 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
     super.initState();
   }
 
-  _calculateTimes(UserData userData) {
-    totalSec = 0;
-      for (Data data in userData.data)
-        totalSec +=
-        data.categories.isNotEmpty ? data.categories[0].totalSeconds : 0;
-      var dur = Duration(seconds: totalSec.toInt());
-      int hrs = dur.inHours;
-      int mins = dur.inMinutes.remainder(60);
-      String timeString = hrs > 0
-          ? "$hrs hrs ${mins.toString()} mins"
-          : "${mins.toString()} mins";
-      totalSeconds = totalSec;
-      totalTimeString = timeString;
-  }
-
   _getUserSummary(String apiKey, String start, String end) {
     getUserSummary(apiKey, start, end).then((response) {
       setState(() {
         userData = response;
-        _calculateTimes(response);
       });
     });
   }
@@ -98,7 +79,6 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
             (userData != null) ?
             ActivityChart(
               userData: userData,
-              totalTimeString: totalTimeString,
               changeDate: changeDate,
               is7Day: is7Day,
             ) : Container(),

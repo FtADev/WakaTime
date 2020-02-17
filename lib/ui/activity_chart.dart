@@ -4,19 +4,18 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:waka/repository/model/data.dart';
 import 'package:waka/repository/model/user_data.dart';
 import 'package:waka/ui/my_colors.dart';
 
 class ActivityChart extends StatefulWidget {
   final UserData userData;
-  final String totalTimeString;
   final Function changeDate;
   final bool is7Day;
 
   const ActivityChart({
     Key key,
     @required this.userData,
-    this.totalTimeString,
     this.changeDate,
     this.is7Day,
   }) : super(key: key);
@@ -35,6 +34,9 @@ class ActivityChartState extends State<ActivityChart> {
     Colors.pink,
     Colors.redAccent,
   ];
+  double totalSec = 0;
+  double totalSeconds;
+  String totalTimeString;
 
   List<BarChartGroupData> rawBarGroups;
   List<BarChartGroupData> showingBarGroups;
@@ -51,7 +53,27 @@ class ActivityChartState extends State<ActivityChart> {
     buildChart();
   }
 
+
+  _calculateTimes(UserData userData) {
+    totalSec = 0;
+    for (Data data in userData.data)
+      totalSec +=
+      data.categories.isNotEmpty ? data.categories[0].totalSeconds : 0;
+    var dur = Duration(seconds: totalSec.toInt());
+    int hrs = dur.inHours;
+    int mins = dur.inMinutes.remainder(60);
+    String timeString = hrs > 0
+        ? "$hrs hrs ${mins.toString()} mins"
+        : "${mins.toString()} mins";
+    totalSeconds = totalSec;
+    setState(() {
+      totalTimeString = timeString;
+    });
+  }
+
   buildChart() {
+    _calculateTimes(widget.userData);
+
     List<BarChartGroupData> items = [];
       for (int i = 0; i < widget.userData.data.length; i++) {
         BarChartGroupData barGroup = makeGroupData(
@@ -124,8 +146,8 @@ class ActivityChartState extends State<ActivityChart> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text(
-                  (widget.totalTimeString != null)
-                      ? widget.totalTimeString
+                  (totalTimeString != null)
+                      ? totalTimeString
                       : "",
                   style: Theme.of(context).textTheme.body2,
                 ),
