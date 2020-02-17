@@ -48,9 +48,11 @@ class OSChartState extends State<OSChart> {
     Colors.grey
   ];
 
-  @override
-  void initState() {
-    super.initState();
+  buildChart() {
+    pieChartRawSections = [];
+    osNames = [];
+    totalSecond = [];
+    sum = 0.0;
 
     //Add all languages to list
     for (Data data in widget.userData.data)
@@ -129,6 +131,12 @@ class OSChartState extends State<OSChart> {
         );
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    buildChart();
   }
 
   List<Widget> _indicators() {
