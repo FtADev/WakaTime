@@ -16,6 +16,9 @@ class UserActivityScreen extends StatefulWidget {
 }
 
 class _UserActivityScreenState extends State<UserActivityScreen> {
+  final GlobalKey<LanguageChartState> languageState = GlobalKey<LanguageChartState>();
+  final GlobalKey<EditorChartState> editorState = GlobalKey<EditorChartState>();
+  final GlobalKey<OSChartState> osState = GlobalKey<OSChartState>();
   UserData userData;
   double totalSec = 0;
   double totalSeconds;
@@ -60,6 +63,12 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
     });
   }
 
+  updateCharts() {
+    languageState.currentState.buildChart();
+    editorState.currentState.buildChart();
+    osState.currentState.buildChart();
+  }
+
   changeDate() {
     setState(() {
       is7Day = !is7Day;
@@ -71,6 +80,7 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
             .format(DateTime.now().subtract(Duration(days: 13)));
         String end = DateFormat('yyy-MM-dd').format(DateTime.now());
         _getUserSummary(apiKey, start, end);
+        updateCharts();
       });
     });
   }
@@ -94,14 +104,17 @@ class _UserActivityScreenState extends State<UserActivityScreen> {
             ) : Container(),
             (userData != null) ?
             LanguageChart(
+              key: languageState,
               userData: userData,
             ) : Container(),
             (userData != null) ?
             EditorChart(
+              key: editorState,
               userData: userData,
             ) : Container(),
             (userData != null) ?
             OSChart(
+              key: osState,
               userData: userData,
             ) : Container(),
           ],
