@@ -49,9 +49,11 @@ class EditorChartState extends State<EditorChart> {
     Colors.grey
   ];
 
-  @override
-  void initState() {
-    super.initState();
+  buildChart() {
+    pieChartRawSections = [];
+    editorsNames = [];
+    totalSecond = [];
+    sum = 0.0;
 
     //Add all languages to list
     for (Data data in widget.userData.data)
@@ -130,6 +132,12 @@ class EditorChartState extends State<EditorChart> {
         );
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    buildChart();
   }
 
   List<Widget> _indicators() {
