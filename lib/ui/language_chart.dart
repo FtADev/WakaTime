@@ -51,17 +51,17 @@ class LanguageChartState extends State<LanguageChart> {
   @override
   void initState() {
     super.initState();
-    buildChart();
+    buildChart(widget.userData);
   }
 
-  buildChart() {
+  buildChart(UserData userData) {
     pieChartRawSections = [];
     languageNames = [];
     totalSecond = [];
     sum = 0.0;
 
     //Add all languages to list
-    for (Data data in widget.userData.data)
+    for (Data data in userData.data)
       for (Languages lang in data.languages)
         if (!languageNames.contains(lang.name)) languageNames.add(lang.name);
 
@@ -69,10 +69,10 @@ class LanguageChartState extends State<LanguageChart> {
     for (int i = 0; i < languageNames.length; i++) totalSecond.add(0.0);
 
     for (int i = 0; i < languageNames.length; i++) {
-      for (int j = 0; j < widget.userData.data.length; j++) {
-        for (int k = 0; k < widget.userData.data[j].languages.length; k++) {
-          if (widget.userData.data[j].languages[k].name == languageNames[i]) {
-            totalSecond[i] += widget.userData.data[j].languages[k].totalSeconds;
+      for (int j = 0; j < userData.data.length; j++) {
+        for (int k = 0; k < userData.data[j].languages.length; k++) {
+          if (userData.data[j].languages[k].name == languageNames[i]) {
+            totalSecond[i] += userData.data[j].languages[k].totalSeconds;
           }
         }
       }
@@ -115,7 +115,6 @@ class LanguageChartState extends State<LanguageChart> {
     pieTouchedResultStreamController.stream.distinct().listen((details) {
       if (details == null) return;
       if (showingSections.indexOf(details.touchedSection) == -1) return;
-
 
       if (details.touchedSection != null)
         touchedIndex = showingSections.indexOf(details.touchedSection);
@@ -172,39 +171,44 @@ class LanguageChartState extends State<LanguageChart> {
           Expanded(
             child: AspectRatio(
               aspectRatio: 1,
-                child: PieChart(
-                  PieChartData(
-                    pieTouchData: PieTouchData(
-                      touchCallback:
-                          (pieTouchResponse) {
-                            if (pieTouchResponse == null) return;
-                            if (showingSections.indexOf(pieTouchResponse.touchedSection) == -1) return;
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                    if (pieTouchResponse == null) return;
+                    if (showingSections
+                            .indexOf(pieTouchResponse.touchedSection) ==
+                        -1) return;
 
-                            if (pieTouchResponse.touchedSection != null)
-                              touchedIndex = showingSections.indexOf(pieTouchResponse.touchedSection);
-                            print(touchedIndex);
-                            setState(() {
-                              showingSections = List.of(pieChartRawSections);
+                    if (pieTouchResponse.touchedSection != null)
+                      touchedIndex = showingSections
+                          .indexOf(pieTouchResponse.touchedSection);
+                    print(touchedIndex);
+                    setState(() {
+                      showingSections = List.of(pieChartRawSections);
 
-                              double x = totalSecond[touchedIndex] / 3600;
-                              int hrs = x.floor();
-                              int mins = ((x - hrs) * 60).floor();
-                              final TextStyle style = showingSections[touchedIndex].titleStyle;
-                              showingSections[touchedIndex] = showingSections[touchedIndex].copyWith(
-                                title: hrs > 0
-                                    ? "$hrs hrs ${mins.toString()} mins"
-                                    : "${mins.toString()} mins",
-                                color: showingSections[touchedIndex].color.withOpacity(1),
-                                titleStyle: style.copyWith(fontSize: 14, color: Colors.black),
-                                radius: 60,
-                              );
-                            });
-                      }),
-                    borderData: FlBorderData(show: false),
-                    sectionsSpace: 0,
-                    centerSpaceRadius: 40,
-                    sections: showingSections,
-                  ),
+                      double x = totalSecond[touchedIndex] / 3600;
+                      int hrs = x.floor();
+                      int mins = ((x - hrs) * 60).floor();
+                      final TextStyle style =
+                          showingSections[touchedIndex].titleStyle;
+                      showingSections[touchedIndex] =
+                          showingSections[touchedIndex].copyWith(
+                        title: hrs > 0
+                            ? "$hrs hrs ${mins.toString()} mins"
+                            : "${mins.toString()} mins",
+                        color:
+                            showingSections[touchedIndex].color.withOpacity(1),
+                        titleStyle:
+                            style.copyWith(fontSize: 14, color: Colors.black),
+                        radius: 60,
+                      );
+                    });
+                  }),
+                  borderData: FlBorderData(show: false),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: showingSections,
+                ),
               ),
             ),
           ),

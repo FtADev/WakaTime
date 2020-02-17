@@ -50,15 +50,14 @@ class ActivityChartState extends State<ActivityChart> {
   @override
   void initState() {
     super.initState();
-    buildChart();
+    buildChart(widget.userData);
   }
-
 
   _calculateTimes(UserData userData) {
     totalSec = 0;
     for (Data data in userData.data)
       totalSec +=
-      data.categories.isNotEmpty ? data.categories[0].totalSeconds : 0;
+          data.categories.isNotEmpty ? data.categories[0].totalSeconds : 0;
     var dur = Duration(seconds: totalSec.toInt());
     int hrs = dur.inHours;
     int mins = dur.inMinutes.remainder(60);
@@ -66,24 +65,22 @@ class ActivityChartState extends State<ActivityChart> {
         ? "$hrs hrs ${mins.toString()} mins"
         : "${mins.toString()} mins";
     totalSeconds = totalSec;
-    setState(() {
-      totalTimeString = timeString;
-    });
+    totalTimeString = timeString;
+    print(totalTimeString);
   }
 
-  buildChart() {
-    _calculateTimes(widget.userData);
+  buildChart(UserData userData) {
+    _calculateTimes(userData);
 
     List<BarChartGroupData> items = [];
-      for (int i = 0; i < widget.userData.data.length; i++) {
-        BarChartGroupData barGroup = makeGroupData(
-            i,
-            widget.userData.data[i].categories.isNotEmpty
-                ? widget.userData.data[i].categories[0].totalSeconds / 3600
-                : 0);
-        items.add(barGroup);
-      }
-
+    for (int i = 0; i < userData.data.length; i++) {
+      BarChartGroupData barGroup = makeGroupData(
+          i,
+          userData.data[i].categories.isNotEmpty
+              ? userData.data[i].categories[0].totalSeconds / 3600
+              : 0);
+      items.add(barGroup);
+    }
 
     rawBarGroups = items;
 
@@ -117,11 +114,11 @@ class ActivityChartState extends State<ActivityChart> {
           if (touchedGroupIndex != -1) {
             showingBarGroups[touchedGroupIndex] =
                 showingBarGroups[touchedGroupIndex].copyWith(
-                  barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
-                    return rod.copyWith(
-                        color: MyColors.BAR_TOUCHED_COLOR, y: rod.y + 1);
-                  }).toList(),
-                );
+              barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
+                return rod.copyWith(
+                    color: MyColors.BAR_TOUCHED_COLOR, y: rod.y + 1);
+              }).toList(),
+            );
           }
         }
       });
@@ -146,9 +143,7 @@ class ActivityChartState extends State<ActivityChart> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text(
-                  (totalTimeString != null)
-                      ? totalTimeString
-                      : "",
+                  (totalTimeString != null) ? totalTimeString : "",
                   style: Theme.of(context).textTheme.body2,
                 ),
                 SizedBox(
@@ -157,9 +152,6 @@ class ActivityChartState extends State<ActivityChart> {
                 InkWell(
                   onTap: () {
                     widget.changeDate();
-                    setState(() {
-                      buildChart();
-                    });
                   },
                   child: Text(
                     widget.is7Day ? "7 Days Ago" : "14 Days Ago",
@@ -225,7 +217,8 @@ class ActivityChartState extends State<ActivityChart> {
           margin: 16,
           getTitles: (double value) {
             return DateFormat.E()
-                .format(DateTime.now().subtract(Duration(days: widget.userData.data.length - 1 - value.toInt())))
+                .format(DateTime.now().subtract(Duration(
+                    days: widget.userData.data.length - 1 - value.toInt())))
                 .substring(0, 1);
           },
         ),
@@ -239,7 +232,7 @@ class ActivityChartState extends State<ActivityChart> {
       barGroups: List.generate(widget.userData.data.length, (i) {
         return makeGroupData(i, Random().nextInt(15).toDouble() + 6,
             barColor:
-            availableColors[Random().nextInt(availableColors.length)]);
+                availableColors[Random().nextInt(availableColors.length)]);
       }),
     );
   }
@@ -251,8 +244,8 @@ class ActivityChartState extends State<ActivityChart> {
             tooltipBgColor: MyColors.TOOLTIP_BG_COLOR,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               String weekDay;
-              weekDay = DateFormat.E()
-                  .format(DateTime.now().subtract(Duration(days: widget.userData.data.length - 1 - group.x.toInt())));
+              weekDay = DateFormat.E().format(DateTime.now().subtract(Duration(
+                  days: widget.userData.data.length - 1 - group.x.toInt())));
               return BarTooltipItem(
                   weekDay +
                       '\n' +
@@ -279,7 +272,8 @@ class ActivityChartState extends State<ActivityChart> {
           margin: 16,
           getTitles: (double value) {
             return DateFormat.E()
-                .format(DateTime.now().subtract(Duration(days: widget.userData.data.length - 1 - value.toInt())))
+                .format(DateTime.now().subtract(Duration(
+                    days: widget.userData.data.length - 1 - value.toInt())))
                 .substring(0, 1);
           },
         ),

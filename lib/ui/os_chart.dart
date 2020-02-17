@@ -48,14 +48,14 @@ class OSChartState extends State<OSChart> {
     Colors.grey
   ];
 
-  buildChart() {
+  buildChart(UserData userData) {
     pieChartRawSections = [];
     osNames = [];
     totalSecond = [];
     sum = 0.0;
 
     //Add all languages to list
-    for (Data data in widget.userData.data)
+    for (Data data in userData.data)
       for (OperatingSystems lang in data.operatingSystems)
         if (!osNames.contains(lang.name)) osNames.add(lang.name);
 
@@ -63,10 +63,10 @@ class OSChartState extends State<OSChart> {
     for (int i = 0; i < osNames.length; i++) totalSecond.add(0.0);
 
     for (int i = 0; i < osNames.length; i++) {
-      for (int j = 0; j < widget.userData.data.length; j++) {
-        for (int k = 0; k < widget.userData.data[j].operatingSystems.length; k++) {
-          if (widget.userData.data[j].operatingSystems[k].name == osNames[i]) {
-            totalSecond[i] += widget.userData.data[j].operatingSystems[k].totalSeconds;
+      for (int j = 0; j < userData.data.length; j++) {
+        for (int k = 0; k < userData.data[j].operatingSystems.length; k++) {
+          if (userData.data[j].operatingSystems[k].name == osNames[i]) {
+            totalSecond[i] += userData.data[j].operatingSystems[k].totalSeconds;
           }
         }
       }
@@ -110,7 +110,6 @@ class OSChartState extends State<OSChart> {
       if (details == null) return;
       if (showingSections.indexOf(details.touchedSection) == -1) return;
 
-
       if (details.touchedSection != null)
         touchedIndex = showingSections.indexOf(details.touchedSection);
       print(touchedIndex);
@@ -136,7 +135,7 @@ class OSChartState extends State<OSChart> {
   @override
   void initState() {
     super.initState();
-    buildChart();
+    buildChart(widget.userData);
   }
 
   List<Widget> _indicators() {
@@ -146,7 +145,7 @@ class OSChartState extends State<OSChart> {
       indicators.add(
         Indicator(
           color:
-          touchedIndex == i ? colorList[i] : colorList[i].withOpacity(0.8),
+              touchedIndex == i ? colorList[i] : colorList[i].withOpacity(0.8),
           text: osNames[i],
           isSquare: false,
           size: touchedIndex == i ? 18 : 14,
@@ -174,32 +173,37 @@ class OSChartState extends State<OSChart> {
               aspectRatio: 1,
               child: PieChart(
                 PieChartData(
-                  pieTouchData: PieTouchData(
-                      touchCallback:
-                          (pieTouchResponse) {
-                        if (pieTouchResponse == null) return;
-                        if (showingSections.indexOf(pieTouchResponse.touchedSection) == -1) return;
+                  pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                    if (pieTouchResponse == null) return;
+                    if (showingSections
+                            .indexOf(pieTouchResponse.touchedSection) ==
+                        -1) return;
 
-                        if (pieTouchResponse.touchedSection != null)
-                          touchedIndex = showingSections.indexOf(pieTouchResponse.touchedSection);
-                        print(touchedIndex);
-                        setState(() {
-                          showingSections = List.of(pieChartRawSections);
+                    if (pieTouchResponse.touchedSection != null)
+                      touchedIndex = showingSections
+                          .indexOf(pieTouchResponse.touchedSection);
+                    print(touchedIndex);
+                    setState(() {
+                      showingSections = List.of(pieChartRawSections);
 
-                          double x = totalSecond[touchedIndex] / 3600;
-                          int hrs = x.floor();
-                          int mins = ((x - hrs) * 60).floor();
-                          final TextStyle style = showingSections[touchedIndex].titleStyle;
-                          showingSections[touchedIndex] = showingSections[touchedIndex].copyWith(
-                            title: hrs > 0
-                                ? "$hrs hrs ${mins.toString()} mins"
-                                : "${mins.toString()} mins",
-                            color: showingSections[touchedIndex].color.withOpacity(1),
-                            titleStyle: style.copyWith(fontSize: 14, color: Colors.black),
-                            radius: 60,
-                          );
-                        });
-                      }),
+                      double x = totalSecond[touchedIndex] / 3600;
+                      int hrs = x.floor();
+                      int mins = ((x - hrs) * 60).floor();
+                      final TextStyle style =
+                          showingSections[touchedIndex].titleStyle;
+                      showingSections[touchedIndex] =
+                          showingSections[touchedIndex].copyWith(
+                        title: hrs > 0
+                            ? "$hrs hrs ${mins.toString()} mins"
+                            : "${mins.toString()} mins",
+                        color:
+                            showingSections[touchedIndex].color.withOpacity(1),
+                        titleStyle:
+                            style.copyWith(fontSize: 14, color: Colors.black),
+                        radius: 60,
+                      );
+                    });
+                  }),
                   borderData: FlBorderData(show: false),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
