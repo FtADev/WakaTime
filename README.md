@@ -6,7 +6,7 @@ A new Flutter project.
 
 Sample output:
 
-<img src="pic1.jpg"/>
-<img src="pic2.jpg"/>
-<img src="pic3.jpg"/>
-<img src="pic4.jpg"/>
+<img src="pic1.jpg" width="200" height="400"/>
+<img src="pic2.jpg" width="200" height="400"/>
+<img src="pic3.jpg" width="200" height="400"/>
+<img src="pic4.jpg" width="200" height="400"/>
